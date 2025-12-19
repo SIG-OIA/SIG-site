@@ -1,1 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
 
+  <!-- TITLE + DESCRIPTION (EDIT THESE) -->
+  <title>SIG | Special Initiatives Group</title>
+  <meta name="description" content="An organizational body coordinating selected programs and operational efforts beyond standard scope, aligned with internal strategic frameworks." />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Dark mode (default) */
+      --bg: #0b0c0e;
+      --bg2: #090a0c;
+      --text: #e9e9e7;
+      --muted: rgba(233,233,231,.72);
+      --muted2: rgba(233,233,231,.58);
+      --rule: rgba(233,233,231,.14);
+
+      /* Header band */
+      --band: rgba(140,150,155,.22); /* subtle slate on dark */
+
+      /* Link */
+      --link: rgba(233,233,231,.62);
+      --linkHover: rgba(233,233,231,.85);
+
+      /* Paper mode palette (used in print + optional light toggle) */
+      --paper: #f6f6f4;
+      --ink: #151515;
+      --inkMuted: rgba(21,21,21,.72);
+      --inkRule: rgba(21,21,21,.18);
+      --bandPaper: rgba(80,90,95,.22);
+    }
+
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 35% 10%, rgba(255,255,255,.06), transparent 55%),
+                  linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      font-family: "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.75;
+      letter-spacing: .1px;
+    }
+
+    /* Layout container */
+    .wrap{
+      max-width: 980px;
+      padding: 72px 28px 80px;
+      margin: 0 auto;
+    }
+
+    /* Header band */
+    .band{
+      position: fixed;
+      top:0; left:0; right:0;
+      height: 8px;
+      background: var(--band);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Optional tiny handling label (leave empty if you want no text) */
+    .bandLabel{
+      position: fixed;
+      top: 10px;
+      left: 28px;
+      font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(233,233,231,.35);
+      z-index: 10;
+      user-select: none;
+    }
+
+    h1{
+      font-size: clamp(34px, 4.2vw, 56px);
+      font-weight: 600;
+      letter-spacing: -.6px;
+      margin: 0 0 18px;
+    }
+
+    .lede{
+      font-size: 20px;
+      color: var(--muted);
+      margin: 0 0 28px;
+      max-width: 62ch;
+    }
+
+    hr{
+      border: 0;
+      height: 1px;
+      background: var(--rule);
+      margin: 36px 0 34px;
+      width: min(760px, 100%);
+    }
+
+    .copy{
+      color: var(--muted);
+      font-size: 16.5px;
+      max-width: 78ch;
+    }
+
+    .copy p{
+      margin: 0 0 18px;
+    }
+
+    /* Action link */
+    .action{
+      margin-top: 28px;
+    }
+    .action a{
+      display: inline-block;
+      font-family: "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--link);
+      text-decoration: none;
+      padding: 8px 0;
+      transition: opacity .18s ease;
+    }
+    .action a:hover{ color: var(--linkHover); }
+
+    /* Footer microtext */
+    .micro{
+      margin-top: 34px;
+      font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(233,233,231,.42);
+    }
+    .micro .block{
+      display: grid;
+      gap: 6px;
+      width: max-content;
+    }
+    .micro .final{
+      margin-top: 14px;
+      color: rgba(233,233,231,.34);
+    }
+
+    /* Top right controls (optional) */
+    .controls{
+      position: fixed;
+      top: 16px;
+      right: 18px;
+      display: flex;
+      gap: 10px;
+      z-index: 20;
+    }
+    .btn{
+      font-family: "Source Code Pro", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(233,233,231,.55);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn:hover{
+      color: rgba(233,233,231,.80);
+      border-color: rgba(255,255,255,.18);
+    }
+
+    /* LIGHT MODE (manual toggle via body[data-theme="paper"]) */
+    body[data-theme="paper"]{
+      background: var(--paper);
+      color: var(--ink);
+    }
+    body[data-theme="paper"] .band{ background: var(--bandPaper); }
+    body[data-theme="paper"] .bandLabel{ color: rgba(21,21,21,.38); }
+    body[data-theme="paper"] .lede, 
+    body[data-theme="paper"] .copy{ color: var(--inkMuted); }
+    body[data-theme="paper"] hr{ background: var(--inkRule); }
+    body[data-theme="paper"] .action a{ color: rgba(21,21,21,.62); }
+    body[data-theme="paper"] .action a:hover{ color: rgba(21,21,21,.85); }
+    body[data-theme="paper"] .micro{ color: rgba(21,21,21,.46); }
+    body[data-theme="paper"] .micro .final{ color: rgba(21,21,21,.36); }
+    body[data-theme="paper"] .btn{
+      color: rgba(21,21,21,.62);
+      background: rgba(0,0,0,.03);
+      border-color: rgba(0,0,0,.10);
+    }
+    body[data-theme="paper"] .btn:hover{
+      color: rgba(21,21,21,.85);
+      border-color: rgba(0,0,0,.18);
+    }
+
+    /* PRINT / BRIEF EXPORT MODE */
+    @media print {
+      .controls, .bandLabel { display: none !important; }
+      .band{ position: static; height: 10px; background: var(--bandPaper) !important; }
+      body{
+        background: var(--paper) !important;
+        color: var(--ink) !important;
+      }
+      .lede, .copy{ color: var(--inkMuted) !important; }
+      hr{ background: var(--inkRule) !important; }
+      .action{ display:none !important; }
+      .wrap{ padding: 28px 24px 28px; max-width: 980px; }
+      /* Optional print header stamp */
+      .printStamp{
+        display:block !important;
+        font-family: "Source Code Pro", ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: rgba(21,21,21,.55);
+        margin: 6px 0 18px;
+      }
+    }
+
+    .printStamp{ display:none; }
+
+    /* Mobile */
+    @media (max-width: 520px){
+      .wrap{ padding-top: 64px; }
+      .bandLabel{ left: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="band"></div>
+  <div class="bandLabel" id="bandLabel">CONTROLLED // EXTERNAL</div>
+
+  <!-- Optional controls (remove if you want zero UI) -->
+  <div class="controls">
+    <button class="btn" id="toggleTheme" type="button">TOGGLE MODE</button>
+    <button class="btn" id="copyRef" type="button">COPY REF</button>
+  </div>
+
+  <main class="wrap">
+    <div class="printStamp" id="printStamp">
+      SPECIAL INITIATIVES GROUP // EXTERNAL BRIEF
+    </div>
+
+    <h1>For Non-Standard Operations</h1>
+
+    <p class="lede">
+      Special Initiatives Group provides oversight for operations outside standard scope.
+    </p>
+
+    <hr />
+
+    <section class="copy">
+      <p>
+        Special Initiatives Group (SIG) serves as a structural body for the deployment and execution of targeted programs
+        and operational efforts aligned with its strategic framework.
+      </p>
+      <p>
+        Mandates are carried out through select personnel and forward assets, with operational directives and oversight
+        procedures tailored to scope, scale, and relevance.
+      </p>
+      <p>
+        SIG directly engages in operational conditioning and preparedness training, exploratory research, external public
+        engagement, cultural development, and media production and distribution.
+      </p>
+    </section>
+
+    <div class="action">
+      <a href="#request" aria-label="Submit request">SUBMIT REQUEST</a>
+    </div>
+
+    <footer class="micro" aria-label="Document control footer">
+      <div class="block">
+        <div>SPECIAL INITIATIVES GROUP</div>
+        <div id="nodeId">EXT PORTAL NODE</div>
+        <div>REF: <span id="refId">SIG/EP-040</span></div>
+        <div>ACCESS: CONTROLLED</div>
+      </div>
+      <div class="final">
+        <span id="sigMark">SIG</span> • REV <span id="revId">20251219</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    /*
+      ==========================
+      EDIT CONFIG BELOW (ONLY)
+      ==========================
+    */
+    const CONFIG = {
+      // Node identifiers (rotate per page or per schedule)
+      nodeIdentifiers: [
+        "EXT PORTAL NODE",
+        "EXT ACCESS NODE",
+        "EXTERNAL LIAISON NODE",
+        "PUBLIC INTERFACE"
+      ],
+
+      // REF base and start number
+      refPrefix: "SIG/EP-",
+      refStart: 40,          // EP-040
+      refDigits: 3,          // 3 => 040
+
+      // REF rotation mode: "static" | "monthly" | "quarterly"
+      refMode: "static",
+
+      // REV format: "YYYYMMDD" | "YYMMDD"
+      revFormat: "YYYYMMDD",
+
+      // Handling label in the header band (set "" to hide)
+      bandLabel: "CONTROLLED // EXTERNAL",
+
+      // Theme default: "dark" | "paper"
+      defaultTheme: "dark"
+    };
+
+    /*
+      ==========================
+      LOGIC (DO NOT OVERTHINK)
+      ==========================
+    */
+
+    const pad = (n, w) => String(n).padStart(w, "0");
+
+    const yyyymmdd = (d=new Date()) => {
+      const y = d.getFullYear();
+      const m = pad(d.getMonth()+1, 2);
+      const day = pad(d.getDate(), 2);
+      return `${y}${m}${day}`;
+    };
+
+    const yymmdd = (d=new Date()) => {
+      const y = String(d.getFullYear()).slice(2);
+      const m = pad(d.getMonth()+1, 2);
+      const day = pad(d.getDate(), 2);
+      return `${y}${m}${day}`;
+    };
+
+    const computeRef = () => {
+      const now = new Date();
+      let offset = 0;
+
+      if (CONFIG.refMode === "monthly") {
+        offset = (now.getFullYear() * 12 + now.getMonth()) - (now.getFullYear() * 12 + 0); // from Jan
+      } else if (CONFIG.refMode === "quarterly") {
+        const q = Math.floor(now.getMonth() / 3); // 0-3
+        offset = q;
+      } else {
+        offset = 0; // static
+      }
+
+      const refNum = CONFIG.refStart + offset;
+      return `${CONFIG.refPrefix}${pad(refNum, CONFIG.refDigits)}`;
+    };
+
+    const computeRev = () => {
+      return (CONFIG.revFormat === "YYMMDD") ? yymmdd() : yyyymmdd();
+    };
+
+    const rotateNode = () => {
+      // Deterministic daily rotation: same node for the day
+      const dayKey = Number(yyyymmdd());
+      const idx = dayKey % CONFIG.nodeIdentifiers.length;
+      return CONFIG.nodeIdentifiers[idx];
+    };
+
+    // Apply values
+    const refEl = document.getElementById("refId");
+    const revEl = document.getElementById("revId");
+    const nodeEl = document.getElementById("nodeId");
+    const bandEl = document.getElementById("bandLabel");
+
+    const REF = computeRef();
+    const REV = computeRev();
+    const NODE = rotateNode();
+
+    refEl.textContent = REF;
+    revEl.textContent = REV;
+    nodeEl.textContent = NODE;
+    bandEl.textContent = CONFIG.bandLabel || "";
+    if (!CONFIG.bandLabel) bandEl.style.display = "none";
+
+    // Theme
+    const applyTheme = (t) => {
+      if (t === "paper") document.body.setAttribute("data-theme", "paper");
+      else document.body.removeAttribute("data-theme");
+      localStorage.setItem("sig_theme", t);
+    };
+
+    const savedTheme = localStorage.getItem("sig_theme");
+    const themeToUse = savedTheme || CONFIG.defaultTheme;
+    applyTheme(themeToUse);
+
+    document.getElementById("toggleTheme").addEventListener("click", () => {
+      const current = document.body.getAttribute("data-theme") === "paper" ? "paper" : "dark";
+      applyTheme(current === "paper" ? "dark" : "paper");
+    });
+
+    // Copy REF helper
+    document.getElementById("copyRef").addEventListener("click", async () => {
+      const text = `${REF} • REV ${REV}`;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch(e) {
+        // silent fail
+      }
+    });
+
+    // Print stamp (optional): show in print only, keep label current
+    const stamp = document.getElementById("printStamp");
+    stamp.textContent = "SPECIAL INITIATIVES GROUP // EXTERNAL BRIEF";
+  </script>
+</body>
+</html>
